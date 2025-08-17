@@ -3,50 +3,52 @@ import type { FormData } from '../components/calculator-form/CalculatorForm';
 export interface CalculationResults {
   materialCost: number;
   energyCost: number;
+  laborCost: number;
+  workHours: number;
   totalCostWithoutSupplies: number;
   totalCostWithSupplies: number;
   finalPrice: number;
-
-  // Datos adicionales útiles para mostrar
   totalTimeInHours: number;
   materialCostPerGram: number;
 }
 
 export const calculateCosts = (data: FormData): CalculationResults => {
 
-  // 1. Calcular gasto de material = (gramos × precio_kg / 1000)
+  // gasto de material 
   const materialCostPerGram = data.filamentPrice / 1000;
   const materialCost = data.gramsUsed * materialCostPerGram;
 
-  // 2. Calcular tiempo total en horas (para el cálculo de costo por hora)
+  // gasto de energia
   const totalTimeInHours = data.printHours + (data.printMinutes / 60);
-
-  // 3. Calcular costo por hora de máquina = precio_hora × tiempo_total
   const energyCost = data.hourlyRate * totalTimeInHours;
 
-  // 4. Calcular gasto total sin insumos = material + energía + pruebas
-  const totalCostWithoutSupplies = materialCost + energyCost + data.testCosts;
+  // costo de mano de obra
+  const totalWorkHours = data.workHours + (data.workMinutes / 60);
+  const laborCost = totalWorkHours * data.laborRate;
 
-  // 5. Calcular gasto total con insumos = sin insumos + insumos fijos
+  // gasto total sin insumos
+  const totalCostWithoutSupplies = materialCost + energyCost + data.testCosts + laborCost;
+
+  // gasto total con insumos 
   const totalCostWithSupplies = totalCostWithoutSupplies + data.fixedCosts;
 
-  // 6. Calcular precio final = gasto total × multiplicador
+  // precio final
   const finalPrice = totalCostWithSupplies * data.profitMultiplier;
 
   return {
-    materialCost: Math.round(materialCost * 100) / 100, // Redondear a 2 decimales
+    materialCost: Math.round(materialCost * 100) / 100, 
     energyCost: Math.round(energyCost * 100) / 100,
+    laborCost: Math.round(laborCost * 100) / 100,
+    workHours: totalWorkHours,
     totalCostWithoutSupplies: Math.round(totalCostWithoutSupplies * 100) / 100,
     totalCostWithSupplies: Math.round(totalCostWithSupplies * 100) / 100,
     finalPrice: Math.round(finalPrice * 100) / 100,
-    // Datos adicionales
     totalTimeInHours: Math.round(totalTimeInHours * 100) / 100,
     materialCostPerGram: Math.round(materialCostPerGram * 100) / 100,
   };
 
 };
 
-// Helper adicional para formatear montos en pesos argentinos
 export const formatCurrency = (amount: number): string => {
 
   return new Intl.NumberFormat('es-AR', {
@@ -58,7 +60,6 @@ export const formatCurrency = (amount: number): string => {
 
 };
 
-// Helper para formatear tiempo
 export const formatTime = (hours: number): string => {
 
   const h = Math.floor(hours);

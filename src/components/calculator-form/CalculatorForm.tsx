@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './CalculatorForm.module.css';
+import { formatCurrency } from '../../utils/calculateCosts';
 
 export interface FormData {
     filamentPrice: number;
@@ -7,6 +8,9 @@ export interface FormData {
     hourlyRate: number;
     printHours: number;
     printMinutes: number;
+    workHours: number;
+    workMinutes: number;
+    laborRate: number;  // Tasa por hora de mano de obra
     fixedCosts: number;
     testCosts: number;
     profitMultiplier: number;
@@ -24,20 +28,22 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
         hourlyRate: 300,
         printHours: 1,
         printMinutes: 0,
+        workHours: 0,
+        workMinutes: 30,  // 30 minutos por defecto
+        laborRate: 4000,  // Valor por defecto $4000/h
         fixedCosts: 0,
         testCosts: 0,
         profitMultiplier: 2,
     });
 
     const handleInputChange = (field: keyof FormData, value: string) => {
-        
-        const numValue = parseFloat(value) || 0;
-        
-        if (numValue < 0) return;
-    
-        const updatedData = { ...formData, [field]: numValue };
+        const numValue = field === 'profitMultiplier' 
+            ? parseFloat(value) || 1 
+            : parseFloat(value) || 0;
 
-        setFormData(updatedData);
+        const newFormData = { ...formData, [field]: numValue };
+        setFormData(newFormData);
+        onValuesChange(newFormData);
     };
 
     const handleCalculate = () => {
@@ -89,11 +95,68 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
 
                 <div className={styles.section}>
 
-                    <h3>Energía</h3>
+                    <h3>Mano de Obra</h3>
 
                     <div className={styles.inputGroup}>
 
-                        <label htmlFor="hourlyRate">Precio por hora ($)</label>
+                        <label htmlFor="laborRate">Valor por hora</label>
+                        <input
+                            id="laborRate"
+                            type="number"
+                            min="0"
+                            step="100"
+                            value={formData.laborRate}
+                            onChange={(e) => handleInputChange('laborRate', e.target.value)}
+                            className={styles.input}
+                        />
+
+                    </div>
+                    
+                    <div className={styles.timeInputs}>
+
+                        <div className={styles.inputGroup}>
+
+                            <label htmlFor="workHours">Horas</label>
+                            <input
+                                id="workHours"
+                                type="number"
+                                min="0"
+                                max="999"
+                                value={formData.workHours}
+                                onChange={(e) => handleInputChange('workHours', e.target.value)}
+                                className={styles.input}
+                                style={{ maxWidth: '90%' }}
+                            />
+
+                        </div>
+                        
+                        <div className={styles.inputGroup}>
+
+                            <label htmlFor="workMinutes">Minutos</label>
+                            <input
+                                id="workMinutes"
+                                type="number"
+                                min="0"
+                                max="59"
+                                value={formData.workMinutes}
+                                onChange={(e) => handleInputChange('workMinutes', e.target.value)}
+                                className={styles.input}
+                                style={{ maxWidth: '90%' }}
+                            />
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div className={styles.section}>
+
+                    <h3>Energía</h3>
+                    
+                    <div className={styles.inputGroup}>
+                        
+                        <label htmlFor="hourlyRate">Precio por hora de energía</label>
                         <input
                             id="hourlyRate"
                             type="number"
@@ -150,7 +213,7 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
 
                     <div className={styles.inputGroup}>
 
-                        <label htmlFor="fixedCosts">Insumos fijos ($)</label>
+                        <label htmlFor="fixedCosts">Insumos fijos</label>
                         <input
                             id="fixedCosts"
                             type="number"
@@ -165,7 +228,7 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                     
                     <div className={styles.inputGroup}>
                         
-                        <label htmlFor="testCosts">Modelos de prueba ($)</label>
+                        <label htmlFor="testCosts">Modelos de prueba</label>
                         <input
                         id="testCosts"
                         type="number"

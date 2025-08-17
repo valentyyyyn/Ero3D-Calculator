@@ -17,10 +17,16 @@ export default function Results({ results }: ResultsProps) {
       <div className={styles.grid}>
 
         <div className={styles.card}>
-
           <span className={styles.label}>Gasto material</span>
           <span className={styles.value}>{formatCurrency(results.materialCost)}</span>
+        </div>
 
+        <div className={styles.card}>
+          <span className={styles.label}>Mano de obra</span>
+          <span className={styles.value}>{formatCurrency(results.laborCost)}</span>
+          <small className={styles.sub}>
+            {results.workHours} hora{results.workHours !== 1 ? 's' : ''} × $4000/h
+          </small>
         </div>
 
         <div className={styles.card}>

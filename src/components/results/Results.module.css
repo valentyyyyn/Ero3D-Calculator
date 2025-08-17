@@ -1,19 +1,17 @@
 .container {
-    margin-top: 2rem;
-    padding: 2rem;
+    margin: 2rem auto 0;
+    padding: 2.5rem;
     background: var(--surface);
     border-radius: var(--border-radius);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border);
-    width: 32.9%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 66.8%;
   }
   
   .title {
-    font-size: 2rem;
+    font-size: 4rem;
     font-weight: 700;
-    margin: 0 0 2rem 0;
+    margin: 0 0 2.5rem 0;
     color: var(--text);
     text-align: center;
     letter-spacing: -0.5px;
@@ -21,14 +19,51 @@
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 1.5rem;
-    margin-bottom: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2.5rem;
   }
 
+  @media (max-width: 1200px) {
+    .container {
+      width: 90%;
+      padding: 2rem;
+    }
+    
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+  }
+  
   @media (max-width: 768px) {
+    .container {
+      width: 95%;
+      padding: 1.5rem;
+    }
+    
     .grid {
       grid-template-columns: 1fr;
+      gap: 1.25rem;
+    }
+    
+    .title {
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+    }
+    
+    .card {
+      padding: 1.5rem;
+      min-height: auto;
+    }
+    
+    .value {
+      font-size: 1.75rem;
+    }
+    
+    .finalPrice {
+      font-size: 1.75rem;
+      padding: 1.5rem;
     }
   }
   
@@ -36,11 +71,12 @@
     background: var(--surface-light);
     border: 1px solid var(--border);
     border-radius: var(--border-radius);
-    padding: 1.5rem;
+    padding: 2rem;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     transition: all 0.3s ease-in-out;
+    min-height: 180px;
   }
   
   .card:hover {
@@ -49,35 +85,35 @@
   }
   
   .label {
-    font-size: 0.95rem;
+    font-size: 1.5rem;
     color: var(--text-secondary);
     margin-bottom: 0.5rem;
   }
   
   .value {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: 700;
     color: var(--primary);
-    margin: 0.5rem 0;
+    margin: 0.75rem 0;
   }
   
   .sub {
-    font-size: 0.85rem;
+    font-size: 1rem;
     color: var(--text-secondary);
     opacity: 0.9;
-    margin-top: 0.25rem;
+    margin-top: 0.5rem;
   }
   
   .finalPrice {
-    margin-top: 2rem;
-    padding: 1.5rem;
+    margin-top: 2.5rem;
+    padding: 2rem;
     border-radius: var(--border-radius);
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     color: #fff;
-    font-size: 1.5rem;
+    font-size: 3rem;
     font-weight: 700;
     text-align: center;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 20px rgba(37, 99, 235, 0.3);
     transition: all 0.3s ease-in-out;
   }
   
