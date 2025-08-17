@@ -18,13 +18,11 @@ export const calculateCosts = (data: FormData): CalculationResults => {
   const materialCostPerGram = data.filamentPrice / 1000;
   const materialCost = data.gramsUsed * materialCostPerGram;
 
-  // 2. Calcular tiempo total en horas (para el cálculo de energía)
+  // 2. Calcular tiempo total en horas (para el cálculo de costo por hora)
   const totalTimeInHours = data.printHours + (data.printMinutes / 60);
 
-  // 3. Calcular gasto de luz = precio_kWh × tiempo_total
-  // Asumimos que la impresora consume aproximadamente 0.2 kWh (200W promedio)
-  const PRINTER_POWER_CONSUMPTION = 0.2; // kWh por hora
-  const energyCost = data.kwhPrice * totalTimeInHours * PRINTER_POWER_CONSUMPTION;
+  // 3. Calcular costo por hora de máquina = precio_hora × tiempo_total
+  const energyCost = data.hourlyRate * totalTimeInHours;
 
   // 4. Calcular gasto total sin insumos = material + energía + pruebas
   const totalCostWithoutSupplies = materialCost + energyCost + data.testCosts;

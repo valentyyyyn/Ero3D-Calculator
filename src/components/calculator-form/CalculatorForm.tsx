@@ -4,7 +4,7 @@ import styles from './CalculatorForm.module.css';
 export interface FormData {
     filamentPrice: number;
     gramsUsed: number;
-    kwhPrice: number;
+    hourlyRate: number;
     printHours: number;
     printMinutes: number;
     fixedCosts: number;
@@ -21,7 +21,7 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
     const [formData, setFormData] = useState<FormData>({
         filamentPrice: 20000, // Precio por kg en pesos
         gramsUsed: 0,
-        kwhPrice: 300,
+        hourlyRate: 300,
         printHours: 1,
         printMinutes: 0,
         fixedCosts: 0,
@@ -93,14 +93,14 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
 
                     <div className={styles.inputGroup}>
 
-                        <label htmlFor="kwhPrice">Precio kWh ($)</label>
+                        <label htmlFor="hourlyRate">Precio por hora ($)</label>
                         <input
-                            id="kwhPrice"
+                            id="hourlyRate"
                             type="number"
                             min="0"
                             step="1"
-                            value={formData.kwhPrice}
-                            onChange={(e) => handleInputChange('kwhPrice', e.target.value)}
+                            value={formData.hourlyRate}
+                            onChange={(e) => handleInputChange('hourlyRate', e.target.value)}
                             className={styles.input}
                         />
                         
