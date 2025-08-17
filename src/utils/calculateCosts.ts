@@ -14,25 +14,19 @@ export interface CalculationResults {
 
 export const calculateCosts = (data: FormData): CalculationResults => {
 
-  // gasto de material 
   const materialCostPerGram = data.filamentPrice / 1000;
   const materialCost = data.gramsUsed * materialCostPerGram;
 
-  // gasto de energia
   const totalTimeInHours = data.printHours + (data.printMinutes / 60);
   const energyCost = data.hourlyRate * totalTimeInHours;
 
-  // costo de mano de obra
   const totalWorkHours = data.workHours + (data.workMinutes / 60);
   const laborCost = totalWorkHours * data.laborRate;
 
-  // gasto total sin insumos
   const totalCostWithoutSupplies = materialCost + energyCost + data.testCosts + laborCost;
 
-  // gasto total con insumos 
   const totalCostWithSupplies = totalCostWithoutSupplies + data.fixedCosts;
 
-  // precio final
   const finalPrice = totalCostWithSupplies * data.profitMultiplier;
 
   return {

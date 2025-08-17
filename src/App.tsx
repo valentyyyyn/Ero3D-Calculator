@@ -14,11 +14,8 @@ export default function App() {
 
   const handleValuesChange = (data: FormData) => {
     setCalculatorData(data);
-
     const calculatedResults = calculateCosts(data);
     setResults(calculatedResults);
-    console.log('Valores actualizados:', data);
-    console.log('Resultados calculados:', calculatedResults);
   };
 
   return (

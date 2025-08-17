@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import styles from './CalculatorForm.module.css';
-import { formatCurrency } from '../../utils/calculateCosts';
 
 export interface FormData {
     filamentPrice: number;
@@ -10,7 +9,7 @@ export interface FormData {
     printMinutes: number;
     workHours: number;
     workMinutes: number;
-    laborRate: number;  // Tasa por hora de mano de obra
+    laborRate: number;  
     fixedCosts: number;
     testCosts: number;
     profitMultiplier: number;
@@ -23,27 +22,85 @@ interface CalculatorFormProps {
 export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) {
 
     const [formData, setFormData] = useState<FormData>({
-        filamentPrice: 20000, // Precio por kg en pesos
+        filamentPrice: 20000, 
         gramsUsed: 0,
         hourlyRate: 300,
         printHours: 1,
         printMinutes: 0,
         workHours: 0,
-        workMinutes: 30,  // 30 minutos por defecto
-        laborRate: 4000,  // Valor por defecto $4000/h
+        workMinutes: 30,  
+        laborRate: 4000,  
         fixedCosts: 0,
         testCosts: 0,
         profitMultiplier: 2,
     });
+    
+    const [displayValues, setDisplayValues] = useState<{[key: string]: string}>({
+        filamentPrice: '20.000',
+        gramsUsed: '0',
+        hourlyRate: '300',
+        printHours: '1',
+        printMinutes: '0',
+        workHours: '0',
+        workMinutes: '30',
+        laborRate: '4.000',
+        fixedCosts: '0',
+        testCosts: '0',
+        profitMultiplier: '2',
+    });
 
-    const handleInputChange = (field: keyof FormData, value: string) => {
-        const numValue = field === 'profitMultiplier' 
-            ? parseFloat(value) || 1 
-            : parseFloat(value) || 0;
+    const parseInputValue = (value: string): number => {
+        const digits = value.replace(/[^\d]/g, '');
+        return parseFloat(digits) || 0;
+    };
 
-        const newFormData = { ...formData, [field]: numValue };
+    const handleInputChange = (field: keyof FormData, rawValue: string) => {
+
+        if (rawValue === '') {
+            setDisplayValues(prev => ({ ...prev, [field]: '' }));
+
+            const newFormData = { ...formData, [field]: 0 };
+            setFormData(newFormData);
+            onValuesChange(newFormData);
+
+            return;
+        }
+
+        const numValue = parseInputValue(rawValue);
+        
+        if (numValue === 0 && !rawValue.includes('0')) {
+            return;
+        }
+        
+        const formattedValue = numValue.toLocaleString('es-AR');
+        
+        setDisplayValues(prev => ({ ...prev, [field]: formattedValue }));
+
+        const finalValue = field === 'profitMultiplier' 
+            ? numValue || 1 
+            : numValue;
+            
+        const newFormData = { ...formData, [field]: finalValue };
         setFormData(newFormData);
         onValuesChange(newFormData);
+    };
+
+    const handleBlur = (field: keyof FormData) => {
+        const value = displayValues[field];
+
+        if (value === '') {
+            setDisplayValues(prev => ({ ...prev, [field]: '0' }));
+
+            const newFormData = { ...formData, [field]: 0 };
+            setFormData(newFormData);
+            onValuesChange(newFormData);
+        } else {
+            const digits = value.replace(/[^\d]/g, '');
+            const numValue = parseFloat(digits) || 0;
+            const formattedValue = numValue.toLocaleString('es-AR');
+            
+            setDisplayValues(prev => ({ ...prev, [field]: formattedValue }));
+        }
     };
 
     const handleCalculate = () => {
@@ -69,9 +126,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                             type="number"
                             min="0"
                             step="100"
-                            value={formData.filamentPrice}
+                            value={displayValues.filamentPrice}
                             onChange={(e) => handleInputChange('filamentPrice', e.target.value)}
+                            onBlur={() => handleBlur('filamentPrice')}
                             className={styles.input}
+                            inputMode="numeric"
                         />
 
                     </div>
@@ -84,9 +143,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                             type="number"
                             min="0"
                             step="1"
-                            value={formData.gramsUsed}
+                            value={displayValues.gramsUsed}
                             onChange={(e) => handleInputChange('gramsUsed', e.target.value)}
+                            onBlur={() => handleBlur('gramsUsed')}
                             className={styles.input}
+                            inputMode="numeric"
                         />
 
                     </div>
@@ -105,9 +166,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                             type="number"
                             min="0"
                             step="100"
-                            value={formData.laborRate}
+                            value={displayValues.laborRate}
                             onChange={(e) => handleInputChange('laborRate', e.target.value)}
+                            onBlur={() => handleBlur('laborRate')}
                             className={styles.input}
+                            inputMode="numeric"
                         />
 
                     </div>
@@ -162,9 +225,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                             type="number"
                             min="0"
                             step="1"
-                            value={formData.hourlyRate}
+                            value={displayValues.hourlyRate}
                             onChange={(e) => handleInputChange('hourlyRate', e.target.value)}
+                            onBlur={() => handleBlur('hourlyRate')}
                             className={styles.input}
+                            inputMode="numeric"
                         />
                         
                     </div>
@@ -219,9 +284,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                             type="number"
                             min="0"
                             step="10"
-                            value={formData.fixedCosts}
+                            value={displayValues.fixedCosts}
                             onChange={(e) => handleInputChange('fixedCosts', e.target.value)}
+                            onBlur={() => handleBlur('fixedCosts')}
                             className={styles.input}
+                            inputMode="numeric"
                         />
                         
                     </div>
@@ -234,9 +301,11 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
                         type="number"
                         min="0"
                         step="10"
-                        value={formData.testCosts}
-                        onChange={(e) => handleInputChange('testCosts', e.target.value)}
-                        className={styles.input}
+                            value={displayValues.testCosts}
+                            onChange={(e) => handleInputChange('testCosts', e.target.value)}
+                            onBlur={() => handleBlur('testCosts')}
+                            className={styles.input}
+                            inputMode="numeric"
                         />
                     </div>
 

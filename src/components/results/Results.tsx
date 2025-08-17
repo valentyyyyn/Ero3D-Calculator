@@ -56,7 +56,7 @@ export default function Results({ results }: ResultsProps) {
       </div>
 
       <div className={styles.finalPrice}>
-        <strong>💵 Precio Final:</strong> {formatCurrency(results.finalPrice)}
+        <strong>💵 Precio Final:</strong>{formatCurrency(results.finalPrice)}
       </div>
       
     </div>
