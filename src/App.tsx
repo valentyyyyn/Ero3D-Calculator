@@ -22,7 +22,7 @@ export default function App() {
 
     <section className={styles.content}>
       
-      <h1 className={styles.title}>Print3D Calculator</h1>
+      <h1 className={styles.title}>Ero3D Calculator</h1>
 
       <CalculatorForm onValuesChange={handleValuesChange} />
 

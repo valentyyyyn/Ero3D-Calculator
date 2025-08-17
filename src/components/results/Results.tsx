@@ -24,19 +24,12 @@ export default function Results({ results }: ResultsProps) {
         <div className={styles.card}>
           <span className={styles.label}>Mano de obra</span>
           <span className={styles.value}>{formatCurrency(results.laborCost)}</span>
-          <small className={styles.sub}>
-            {results.workHours} hora{results.workHours !== 1 ? 's' : ''} × $4000/h
-          </small>
         </div>
 
         <div className={styles.card}>
 
           <span className={styles.label}>Gasto luz</span>
           <span className={styles.value}>{formatCurrency(results.energyCost)}</span>
-
-          <small className={styles.sub}>
-            Tiempo: {formatTime(results.totalTimeInHours)}
-          </small>
 
         </div>
 
@@ -53,12 +46,16 @@ export default function Results({ results }: ResultsProps) {
           <span className={styles.value}>{formatCurrency(results.totalCostWithSupplies)}</span>
 
         </div>
+
       </div>
 
       <div className={styles.finalPrice}>
-        <strong>💵 Precio Final:</strong>{formatCurrency(results.finalPrice)}
+        <div><strong>💵 Precio Final:</strong> {formatCurrency(results.finalPrice)}</div>
+        <div className={styles.profit}>
+          <span>💰 Ganancias: </span>
+          <span>{formatCurrency(results.finalPrice - results.totalCostWithSupplies)}</span>
+        </div>
       </div>
-      
     </div>
 
   );
