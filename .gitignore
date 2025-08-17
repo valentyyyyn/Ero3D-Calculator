@@ -61,3 +61,6 @@ jspm_packages/
 
 # Storybook build outputs
 storybook-static/
+
+# Styles
+styles-guide.md

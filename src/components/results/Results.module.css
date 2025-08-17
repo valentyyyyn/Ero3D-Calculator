@@ -1,0 +1,87 @@
+.container {
+    margin-top: 2rem;
+    padding: 2rem;
+    background: var(--surface);
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    width: 32.9%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin: 0 0 2rem 0;
+    color: var(--text);
+    text-align: center;
+    letter-spacing: -0.5px;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  @media (max-width: 768px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .card {
+    background: var(--surface-light);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  
+  .label {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0.5rem 0;
+  }
+  
+  .sub {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    opacity: 0.9;
+    margin-top: 0.25rem;
+  }
+  
+  .finalPrice {
+    margin-top: 2rem;
+    padding: 1.5rem;
+    border-radius: var(--border-radius);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .finalPrice:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+  }
