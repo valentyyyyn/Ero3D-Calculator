@@ -1,6 +1,6 @@
 import styles from "./Results.module.css";
 import type { CalculationResults } from "../../utils/calculateCosts";
-import { formatCurrency, formatTime } from "../../utils/calculateCosts";
+import { formatCurrency } from "../../utils/calculateCosts";
 
 interface ResultsProps {
   results: CalculationResults;
