@@ -333,17 +333,6 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
 
                 </div>
 
-                <div className={styles.buttonContainer}>
-                    <button
-                        type="button"
-                        className={styles.button}
-                        onClick={handleCalculate}
-                    >
-                        Calcular
-                    </button>
-                </div>
-
-
             </form>
 
         </div>
