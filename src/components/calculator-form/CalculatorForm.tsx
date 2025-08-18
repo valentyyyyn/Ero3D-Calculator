@@ -103,11 +103,6 @@ export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) 
         }
     };
 
-    const handleCalculate = () => {
-        onValuesChange(formData);
-    };
-
-
     return (
 
         <div className={styles.formContainer}>
