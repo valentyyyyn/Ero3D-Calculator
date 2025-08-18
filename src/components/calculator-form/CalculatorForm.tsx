@@ -22,28 +22,28 @@ interface CalculatorFormProps {
 export default function CalculatorForm({ onValuesChange }: CalculatorFormProps) {
 
     const [formData, setFormData] = useState<FormData>({
-        filamentPrice: 20000, 
+        filamentPrice: 22000, 
         gramsUsed: 0,
-        hourlyRate: 300,
-        printHours: 1,
+        hourlyRate: 0,
+        printHours: 0,
         printMinutes: 0,
         workHours: 0,
-        workMinutes: 30,  
-        laborRate: 4000,  
+        workMinutes: 0,  
+        laborRate: 0,  
         fixedCosts: 0,
         testCosts: 0,
         profitMultiplier: 2,
     });
     
     const [displayValues, setDisplayValues] = useState<{[key: string]: string}>({
-        filamentPrice: '20.000',
+        filamentPrice: '22.000',
         gramsUsed: '0',
-        hourlyRate: '300',
-        printHours: '1',
+        hourlyRate: '0',
+        printHours: '0',
         printMinutes: '0',
         workHours: '0',
-        workMinutes: '30',
-        laborRate: '4.000',
+        workMinutes: '0',
+        laborRate: '0',
         fixedCosts: '0',
         testCosts: '0',
         profitMultiplier: '2',
